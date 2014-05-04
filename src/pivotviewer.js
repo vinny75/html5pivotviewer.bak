@@ -55,6 +55,7 @@
         init: function (options) {
             _self = this;
             _self.addClass('pv-wrapper');
+			_self.height(window.innerHeight-2); // FIXME Hack to get full height get/set BODY margin/padding
             InitPreloader();
 
             //Collection loader
@@ -140,9 +141,12 @@
 
     InitPreloader = function () {
         //http://gifmake.com/
-        _self.append("<div class='pv-loading'><img src='images/loading.gif' alt='Loading' /><span>Loading...</span></div>");
-        $('.pv-loading').css('top', ($('.pv-wrapper').height() / 2) - 33 + 'px');
-        $('.pv-loading').css('left', ($('.pv-wrapper').width() / 2) - 43 + 'px');
+		var loc = { 
+			top: ($('.pv-wrapper').height() / 2) - 33,
+			left: ($('.pv-wrapper').width() / 2) - 43
+		};
+		var loader = ich.pv_template_loader(loc);
+        _self.append(loader);
     };
 
     InitTileCollection = function () {
@@ -212,25 +216,25 @@
         UpdateItemCount();
     };
 
-    InitUI = function () {
-        //toolbar
-        var toolbarPanel = "<div class='pv-toolbarpanel'>";
-
-        var brandImage = PivotCollection.BrandImage;
-        if (brandImage.length > 0)
-            toolbarPanel += "<img class='pv-toolbarpanel-brandimage' src='" + brandImage + "'></img>";
-        toolbarPanel += "<span class='pv-toolbarpanel-name'>" + PivotCollection.CollectionName + "</span>";
-        toolbarPanel += "<span class='pv-toolbarpanel-itemcount'></span>";
-        toolbarPanel += "<div class='pv-toolbarpanel-facetbreadcrumb'></div>";
-        toolbarPanel += "<div class='pv-toolbarpanel-zoomcontrols'><div class='pv-toolbarpanel-zoomslider'></div>";
-        toolbarPanel += "<div class='pv-toolbarpanel-timelineselector'></div></div>";
-        toolbarPanel += "<div class='pv-toolbarpanel-viewcontrols'></div>";
-        toolbarPanel += "<div class='pv-toolbarpanel-sortcontrols'></div>";
-        toolbarPanel += "</div>";
-        _self.append(toolbarPanel);
-
-        //setup zoom slider
-        var thatRef = 0;
+    InitUI = function () {	
+		var opts = {
+			baseContentPath: null,
+			pivotCollection: PivotCollection
+		}
+		mainPanel = ich.pv_template_mainapp(opts);
+        _self.append(mainPanel);
+		
+		var mainPanelWidth = _self.width();
+		var mainPanelHeight = _self.height() - $('.pv-toolbarpanel').height() - 6;		
+		$('.pv-mainpanel').height(mainPanelHeight).width(mainPanelWidth);
+		$('.pv-filterpanel').height(mainPanelHeight - 13);
+		var canvas = $('.pv-viewarea-canvas')[0];
+		canvas.height = mainPanelHeight;
+		canvas.width = mainPanelWidth;
+		$('.pv-infopanel').height(mainPanelHeight - 28).offset({left: mainPanelWidth - 205});
+		$(".pv-filterpanel-accordion").css('height', ($(".pv-filterpanel").height() - $(".pv-filterpanel-search").height() - 75) + "px");
+		
+		var thatRef = 0;
         $('.pv-toolbarpanel-zoomslider').slider({
             max: 100,
             change: function (event, ui) {
@@ -243,30 +247,7 @@
             }
         });
 
-        //main panel
-        _self.append("<div class='pv-mainpanel'></div>");
-        var mainPanelHeight = $('.pv-wrapper').height() - $('.pv-toolbarpanel').height() - 6;
-        $('.pv-mainpanel').css('height', mainPanelHeight + 'px');
-        $('.pv-mainpanel').append("<div class='pv-filterpanel'></div>");
-        $('.pv-mainpanel').append("<div class='pv-viewpanel'><canvas class='pv-viewarea-canvas' width='" + _self.width() + "' height='" + mainPanelHeight + "px'></canvas></div>");
-        $('.pv-mainpanel').append("<div class='pv-infopanel'></div>");
- 
-        //add grid for tableview to the mainpanel
-        $('.pv-viewpanel').append("<div class='pv-tableview-table' id='pv-table'></div>");
-
-        //add canvas for map to the mainpanel
-        $('.pv-viewpanel').append("<div class='pv-mapview-canvas' id='pv-map-canvas'></div>");
-
-        //add canvas for timeline to the mainpanel
-        $('.pv-viewpanel').append("<div class='pv-timeview-canvas' id='pv-time-canvas'></div>");
-
-        //filter panel
         var filterPanel = $('.pv-filterpanel');
-        filterPanel
-            .append("<div class='pv-filterpanel-export' title='Export data'></div>")
-            .append("<div class='pv-filterpanel-clearall'>Clear All</div>")
-            .append("<input class='pv-filterpanel-search' type='text' placeholder='Search...' /><div class='pv-filterpanel-search-autocomplete'></div>")
-            .css('height', mainPanelHeight - 13 + 'px');
         if (navigator.userAgent.match(/iPad/i) != null)
             $('.pv-filterpanel-search').css('width', filterPanel.width() - 10 + 'px');
         else
@@ -274,26 +255,8 @@
         $('.pv-filterpanel-search-autocomplete')
             .css('width', filterPanel.width() - 8 + 'px')
             .hide();
-        //view panel
-        //$('.pv-viewpanel').css('left', $('.pv-filterpanel').width() + 28 + 'px');
-        //info panel
-        var infoPanel = $('.pv-infopanel');
-        infoPanel.css('left', (($('.pv-mainpanel').offset().left + $('.pv-mainpanel').width()) - 205) + 'px')
-            .css('height', mainPanelHeight - 28 + 'px');
-        infoPanel.append("<div class='pv-infopanel-controls'></div>");
-        $('.pv-infopanel-controls').append("<div><div class='pv-infopanel-controls-navleft'></div><div class='pv-infopanel-controls-navleftdisabled'></div><div class='pv-infopanel-controls-navbar'></div><div class='pv-infopanel-controls-navright'></div><div class='pv-infopanel-controls-navrightdisabled'></div></div>");
-        $('.pv-infopanel-controls-navleftdisabled').hide();
-        $('.pv-infopanel-controls-navrightdisabled').hide();
-        infoPanel.append("<div class='pv-infopanel-heading'></div>");
-        infoPanel.append("<div class='pv-infopanel-details'></div>");
-        if (PivotCollection.MaxRelatedLinks > 0) {
-            infoPanel.append("<div class='pv-infopanel-related'></div>");
-        }
-        if (PivotCollection.CopyrightName != "") {
-            infoPanel.append("<div class='pv-infopanel-copyright'><a href=\"" + PivotCollection.CopyrightHref + "\" target=\"_blank\">" + PivotCollection.CopyrightName + "</a></div>");
-        }
-        infoPanel.hide();
     };
+	
 
     //Creates facet list for the filter panel
     //Adds the facets into the filter select list
@@ -483,9 +446,10 @@
             if (PivotCollection.FacetCategories[i].IsFilterVisible)
                 SortFacetItems(PivotCollection.FacetCategories[i].Name);
         }
-	// Minus an extra 25 to leave room for the version number to be added underneath
-        $(".pv-filterpanel-accordion").css('height', ($(".pv-filterpanel").height() - $(".pv-filterpanel-search").height() - 75) + "px");
+
         $(".pv-filterpanel-accordion").accordion({
+			heightStyle: "fill",
+			collapsible: true
         });
         $('.pv-toolbarpanel-sortcontrols').append('<select class="pv-toolbarpanel-sort">' + sort.join('') + '</select>');
 
@@ -663,8 +627,19 @@
             try {
                 if (_views[i] instanceof PivotViewer.Views.IPivotViewerView) {
                     _views[i].Setup(width, height, offsetX, offsetY, _tileController.GetMaxTileRatio());
-                    viewPanel.append("<div class='pv-viewpanel-view' id='pv-viewpanel-view-" + i + "'>" + _views[i].GetUI() + "</div>");
-                    $('.pv-toolbarpanel-viewcontrols').append("<div class='pv-toolbarpanel-view' id='pv-toolbarpanel-view-" + i + "' title='" + _views[i].GetViewName() + "'><img id='pv-viewpanel-view-" + i + "-image' src='" + _views[i].GetButtonImage() + "' alt='" + _views[i].GetViewName() + "' /></div>");
+					
+					var o = {
+						viewIndex: i,
+						viewName: _views[i].GetViewName(),
+						buttonPath: _views[i].GetButtonImage(),
+						viewUI: _views[i].GetUI()
+					};
+
+					var viewpanel_view = ich.pv_template_viewpanel_view(o);
+					viewPanel.append(viewpanel_view);
+
+					var toolbar_viewcontrols = ich.pv_template_toolbar_viewcontrols(o);
+					$('.pv-toolbarpanel-viewcontrols').append(toolbar_viewcontrols);
                 } else {
                     var msg = '';
                     msg = msg + 'View does not inherit from PivotViewer.Views.IPivotViewerView<br>';
@@ -1650,9 +1625,6 @@
     //Image Collection loading complete
     $.subscribe("/PivotViewer/ImageController/Collection/Loaded", function (event) {
         InitPivotViewer();
-        var filterPanel = $('.pv-filterpanel');
-        filterPanel.append("<div class='pv-filterpanel-version'><a href=\"#pv-open-version\">About HTML5 PivotViewer</a></div>");
-        filterPanel.append("<div id=\"pv-open-version\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>Version: 1.0.2</p><p>The sources are available on <a href=\"https://github.com/RogerNoble/html5pivotviewer\" target=\"_blank\">github</a></p></div></div>");
     });
 
     //Item selected - show the info panel
@@ -1671,14 +1643,6 @@
         //if (evt.length > 0) {
         var selectedItem = GetItem(evt.id);
         if (selectedItem != null) {
-            var alternate = true;
-            $('.pv-infopanel-heading').empty();
-            $('.pv-infopanel-heading').append("<a href=\"" + selectedItem.Href + "\" target=\"_blank\">" + selectedItem.Name + "</a></div>");
-            var infopanelDetails = $('.pv-infopanel-details');
-            infopanelDetails.empty();
-            if (selectedItem.Description != undefined && selectedItem.Description.length > 0) {
-                infopanelDetails.append("<div class='pv-infopanel-detail-description' style='height:100px;'>" + selectedItem.Description + "</div><div class='pv-infopanel-detail-description-more'>More</div>");
-            }
             // nav arrows...
             if (selectedItem.Id == _filterItems[0].Id && selectedItem == _filterItems[_filterItems.length - 1]) {
                 $('.pv-infopanel-controls-navright').hide();
@@ -1702,8 +1666,7 @@
                 $('.pv-infopanel-controls-navleftdisabled').hide();
             }
 
-            var detailDOM = [];
-            var detailDOMIndex = 0;
+			var alternate = true;
             for (var i = 0; i < selectedItem.Facets.length; i++) {
                 //check for IsMetaDataVisible
                 var IsMetaDataVisible = false;
@@ -1715,31 +1678,20 @@
                         break;
                     }
                 }
-
-                if (IsMetaDataVisible) {
-                    detailDOM[detailDOMIndex] = "<div class='pv-infopanel-detail " + (alternate ? "detail-dark" : "detail-light") + "'><div class='pv-infopanel-detail-item detail-item-title' pv-detail-item-title='" + selectedItem.Facets[i].Name + "'>" + selectedItem.Facets[i].Name + "</div>";
-                    for (var j = 0; j < selectedItem.Facets[i].FacetValues.length; j++) {
-                        detailDOM[detailDOMIndex] += "<div pv-detail-item-value='" + selectedItem.Facets[i].FacetValues[j].Value + "' class='pv-infopanel-detail-item detail-item-value" + (IsFilterVisible ? " detail-item-value-filter" : "") + "'>";
-                        if (selectedItem.Facets[i].FacetValues[j].Href != null)
-                            detailDOM[detailDOMIndex] += "<a class='detail-item-link' href='" + selectedItem.Facets[i].FacetValues[j].Href + "'>" + selectedItem.Facets[i].FacetValues[j].Value + "</a>";
-                        else
-                            detailDOM[detailDOMIndex] += selectedItem.Facets[i].FacetValues[j].Value;
-                        detailDOM[detailDOMIndex] += "</div>";
-                    }
-                    detailDOM[detailDOMIndex] += "</div>";
-                    detailDOMIndex++;
-                    alternate = !alternate;
-                }
-            }
-            if (selectedItem.Links.length > 0) {
-                $('.pv-infopanel-related').empty();
-                for (var k = 0; k < selectedItem.Links.length; k++) {
-                    $('.pv-infopanel-related').append("<a href='" + selectedItem.Links[k].Href + "'>" + selectedItem.Links[k].Name + "</a><br>");
-                }
-            }
-            infopanelDetails.append(detailDOM.join(''));
+				
+				selectedItem.Facets[i].IsMetaDataVisible = IsMetaDataVisible;
+				selectedItem.Facets[i].IsFilterVisible = IsFilterVisible; // FIXME need paths in mustache - switch to handlebars?
+				selectedItem.Facets[i].alternate = alternate;
+				alternate = !alternate;
+			}
+			
+            var infopanelDetails = $('#pv-infopanel-body');
+            infopanelDetails.empty();			
+            infopanelDetails.append(ich.pv_template_infopanel_details(selectedItem));
+            infopanelDetails.css('height', ($('.pv-infopanel').height() - ($('.pv-infopanel-controls').height() + $('.pv-infopanel-heading').height() + $('.pv-infopanel-copyright').height() + $('.pv-infopanel-related').height()) - 20) + 'px');			
+			
             $('.pv-infopanel').fadeIn();
-            infopanelDetails.css('height', ($('.pv-infopanel').height() - ($('.pv-infopanel-controls').height() + $('.pv-infopanel-heading').height() + $('.pv-infopanel-copyright').height() + $('.pv-infopanel-related').height()) - 20) + 'px');
+
             _selectedItem = selectedItem;
             _selectedItemBkt = evt.bkt;
 

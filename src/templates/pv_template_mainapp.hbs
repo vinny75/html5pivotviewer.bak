@@ -1,0 +1,44 @@
+<div class='pv-toolbarpanel'>
+	{{#if pivotCollection.BrandImage}}<img class='pv-toolbarpanel-brandimage' src='{{pivotCollection.BrandImage}}'></img>{{/if}}
+	<span class='pv-toolbarpanel-name'>{{pivotCollection.CollectionName}}</span>
+	<span class='pv-toolbarpanel-itemcount'>0</span>
+	<div class='pv-toolbarpanel-facetbreadcrumb'></div>
+	<!--<div class='pv-toolbarpanel-feedback' title='Feedback &amp; Support'>
+		<img alt='Feedback &amp; Support' src='{{baseContentPath}}/images/user_comment.png'/>
+	</div>-->
+	<div class='pv-toolbarpanel-zoomcontrols'>
+		<!--<div class="pv-zoomslider-buttons"><img src='{{baseContentPath}}/images/minus.png' /></div> -->
+		<div class='pv-toolbarpanel-zoomslider noUiSlider'></div>
+		<!-- <div class="pv-zoomslider-buttons"><img src='{{baseContentPath}}/images/plus.png' /></div> -->
+	</div>
+	<div class='pv-toolbarpanel-viewcontrols'></div>
+	<div class='pv-toolbarpanel-sortcontrols'></div>
+</div>
+<div class='pv-mainpanel'>
+	<div class='pv-filterpanel-search-autocomplete'></div>
+	<div class='pv-filterpanel'>
+		<div class='pv-filterpanel-export' id='pv-filterpanel-export-container' title='Export to clipboard'></div>
+		<div class='pv-filterpanel-clearall' title="Clear all">
+			<span>Clear All</span>
+		</div>
+		<input class='pv-filterpanel-search' type='text' placeholder='Search...' />
+	</div>
+	<div class='pv-viewpanel'>
+		<canvas class='pv-viewarea-canvas'></canvas>
+		<!-- <canvas class='pv-viewarea-canvas-zoom' width='{{viewPanel.width}}px' height='{{viewPanel.height}}px'></canvas> -->
+	</div>
+	<div class='pv-infopanel'>
+		<div class='pv-infopanel-controls'>
+			<div>
+				<div class='pv-infopanel-controls-navleft' title="Go to previous item"></div>
+				<div class='pv-infopanel-controls-navbar'></div>
+				<div class='pv-infopanel-controls-navright' title="Go to next item"></div>
+			</div>
+		</div>
+		<div class='pv-infopanel-toolbar'></div>	
+		<div id='pv-infopanel-body'></div>
+		<div class='pv-infopanel-copyright'><a href='{{pivotCollection.CopyrightHref}}' target='_blank'>{{pivotCollection.CopyrightName}}</a></div>
+	</div>
+	<div class="pv-itemadorner"></div>
+	<div class="pv-itemselect"></div>
+</div>
