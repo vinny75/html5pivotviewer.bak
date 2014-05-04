@@ -97,6 +97,7 @@ PivotViewer.Utils.Histogram = function (values) {
     var stepSize = ((max + 1) - (min - 1)) / bins;
 
     var histogram = [];
+	var maxCount = 0;
     for (var i = 0; i < bins; i++) {
         var minRange = min + (i * stepSize);
         var maxRange = min + ((i + 1) * stepSize);
@@ -105,8 +106,9 @@ PivotViewer.Utils.Histogram = function (values) {
             if (minRange <= values[j] && maxRange > values[j])
                 histogram[i].push(values[j]);
         }
+		maxCount = maxCount < histogram[i].length ? histogram[i].length : maxCount;
     }
-    return { Histogram: histogram, Min: min, Max: max, BinCount: bins };
+    return { Histogram: histogram, Min: min, Max: max, BinCount: bins, MaxCount: maxCount };
 };
 
 // A simple class creation library.

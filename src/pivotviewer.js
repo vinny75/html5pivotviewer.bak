@@ -611,13 +611,9 @@
         var histogram = PivotViewer.Utils.Histogram(facetValues);
         //work out column width based on chart width
         var columnWidth = (0.5 + (w / histogram.BinCount)) | 0;
-        //get the largest count from the histogram. This is used to scale the heights
-        var maxCount = 0;
-        for (var k = 0, _kLen = histogram.Histogram.length; k < _kLen; k++)
-            maxCount = maxCount < histogram.Histogram[k].length ? histogram.Histogram[k].length : maxCount;
         //draw the bars
         for (var k = 0, _kLen = histogram.Histogram.length; k < _kLen; k++) {
-            var barHeight = (0.5 + (h / (maxCount / histogram.Histogram[k].length))) | 0;
+            var barHeight = (0.5 + (h / (histogram.MaxCount / histogram.Histogram[k].length))) | 0;
             var barX = (0.5 + (columnWidth * k)) | 0;
             chart += "<rect x='" + barX + "' y='" + (h - barHeight) + "' width='" + columnWidth + "' height='" + barHeight + "'></rect>";
         }
