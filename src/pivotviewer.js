@@ -365,9 +365,6 @@
 					}
 				}
 			}
-
-            //Add to sort
-            sort[i] = "<option value='" + CleanName(PivotCollection.FacetCategories[i].Name) + "' label='" + PivotCollection.FacetCategories[i].Name + "'>" + PivotCollection.FacetCategories[i].Name + "</option>";
         }
 
         //Default sorts
@@ -380,7 +377,8 @@
 			heightStyle: "fill",
 			collapsible: true
         });
-        $('.pv-toolbarpanel-sortcontrols').append('<select class="pv-toolbarpanel-sort">' + sort.join('') + '</select>');
+		
+        $('.pv-toolbarpanel-sortcontrols').append(ich.pv_template_toolbar_sort(PivotCollection));
 
         //setup numeric facets
         for (var i = 0; i < _facetNumericItemTotals.length; i++)
