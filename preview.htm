@@ -23,8 +23,13 @@
 	<link href="src/templates/pv_template_infopanel_details.hbs" rel="template" id="pv_template_infopanel_details"/>
 	<link href="src/templates/pv_template_toolbar_viewcontrols.hbs" rel="template" id="pv_template_toolbar_viewcontrols"/>
 	<link href="src/templates/pv_template_viewpanel_view.hbs" rel="template" id="pv_template_viewpanel_view"/>
+	<link href="src/templates/pv_template_facettype_datetime.hbs" rel="template" id="pv_template_facettype_datetime"/>
+	<link href="src/templates/pv_template_facettype_string.hbs" rel="template" id="pv_template_facettype_string"/>
+	<link href="src/templates/pv_template_facettype_number.hbs" rel="template" id="pv_template_facettype_number"/>
+	<link href="src/templates/pv_template_facettype_number_internal.hbs" rel="template" id="pv_template_facettype_number_internal"/>
 	<script src="lib/handlebars/handlebars-v1.3.0.js"></script>
 	<script src="lib/handlebars/ICanHaz-Handlebars.js"></script>
+	<script src="src/Handlebars-Helpers.js"></script>
 
     <!-- prod -->
     <!--<script type="text/javascript" src="build/html5-pivotviewer-1.0.1.min.js"></script>-->
@@ -64,13 +69,19 @@
 			$("link[rel=template]").each(function (index, element) {
 				this.templatePath = $(element).attr("href");
 				this.templateName = $(element).attr("id") || self.attr("data-templateName");
+				this.templatePartial = $(element).attr("data-templatePartial") || false;
 
 				var promise = $.ajax({
 					type: "GET",
 					url: this.templatePath,
 					context: this,
 					success: function (response, status, request) {
-						ich.addTemplate(this.templateName, response);
+						if (this.templatePartial) {
+							ich.addPartial(this.templateName, response);
+						}
+						else {
+							ich.addTemplate(this.templateName, response);
+						}
 					},
 					error: function(reuest, status, error) { 
 						throw new Error("Error loading template, " + this.templateName + ", at " + this.templatePath + ": " + error);

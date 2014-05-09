@@ -1,0 +1,50 @@
+<h3 style='display:{{#if IsFilterVisible}}inherit{{else}}none{{/if}}'><a href='#' title={{Name}}>{{Name}}</a>
+	<div class='pv-filterpanel-accordion-heading-clear' facetType='{{Type}}'>&nbsp;</div>
+</h3>
+<div style='display:{{#if IsFilterVisible}}inherit{{else}}none{{/if}}' style='height:30%' id='pv-cat-{{Clean Name}}'>
+	<ul class='pv-filterpanel-accordion-facet-list' style='{{style}}'>
+		{{#each VisibleBuckets}}
+		<li class='pv-filterpanel-accordion-facet-list-item'  id='{{itemId}}'>
+			<input itemvalue='{{Clean itemValue}}' itemfacet='{{Clean facet}}' class='pv-facet-facetitem' type='checkbox' />
+			<span class='pv-facet-facetitem-label' title='{{itemValue}}'>{{itemValue}}</span>
+			<span class='pv-facet-facetitem-count'>0</span>
+		</li>
+		{{/each}}	
+	</ul>
+	<ul class='pv-filterpanel-accordion-facet-list' style='{{style}}'>
+		{{#each HiddenBuckets}}
+		<li class='pv-filterpanel-accordion-facet-list-item'  id='{{itemId}}'>
+			<input itemvalue='{{Clean itemValue}}' itemfacet='{{Clean facet}}' class='pv-facet-facetitem' type='checkbox' />
+			<span class='pv-facet-facetitem-label' title='{{itemValue}}'>{{itemValue}}</span>
+			<span class='pv-facet-facetitem-count'>0</span>
+		</li>
+		{{/each}}	
+	</ul>
+	<ul class='pv-filterpanel-accordion-facet-list' style='{{style}}'>
+		{{#each NoInfo}}
+		<li class='pv-filterpanel-accordion-facet-list-item'  id='{{itemId}}'>
+			<input itemvalue='{{Clean itemValue}}' itemfacet='{{Clean facet}}' class='pv-facet-facetitem' type='checkbox' />
+			<span class='pv-facet-facetitem-label' title='{{itemValue}}'>{{itemValue}}</span>
+			<span class='pv-facet-facetitem-count'>0</span>
+		</li>
+		{{/each}}	
+	</ul>
+	<ul class='pv-filterpanel-accordion-facet-list'>
+	  <li class='pv-filterpanel-accordion-facet-list-item' id='pv-facet-item-{{Name}}___CustomRange'>
+		<input itemvalue='CustomRange' itemfacet='{{Name}}' class='pv-facet-facetitem' type='checkbox' />
+		<span class='pv-facet-facetitem-label' title='Custom Range'>Custom Range</span>
+	  </li>
+	  <li style="list-style: none; display: inline">
+		<ul class='pv-filterpanel-accordion-facet-list'>
+		  <li class='pv-filterpanel-accordion-facet-list-item' id='pv-custom-range-{{Name}}__Start' style='visibility:hidden;float:right'>
+			<span class='pv-facet-customrange-label' title='Start Date'>Start:</span>
+			<input itemvalue='CustomRangeStart' itemfacet='{{Name}}' id='pv-custom-range-{{Name}}__StartDate' class='pv-facet-customrange' type='text' />
+		  </li>
+		  <li class='pv-filterpanel-accordion-facet-list-item' id='pv-custom-range-{{Name}}__Finish' style='visibility:hidden;float:right'>
+			<span class='pv-facet-customrange-label' title='End Date'>End:</span>
+			<input itemvalue='CustomRangeFinish' itemfacet='{{Name}}' id='pv-custom-range-{{Name}}__FinishDate' class='pv-facet-customrange' type='text' />
+		  </li>
+		</ul>
+	  </li>
+	</ul>	
+</div>

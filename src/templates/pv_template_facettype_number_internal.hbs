@@ -1,0 +1,9 @@
+<span class='pv-filterpanel-numericslider-range-val'>&nbsp;</span>
+<svg class='pv-filterpanel-accordion-facet-chart' width='{{Width}}' height='{{Height}}'>
+	{{#each bars}}
+		<rect x='{{x}}' y='{{y}}' width='{{w}}' height='{{h}}'></rect>
+	{{/each}}
+</svg>
+<div id='pv-filterpanel-numericslider-{{Clean Name}}' class="pv-filterpanel-numericslider"></div>
+<span class="pv-filterpanel-numericslider-range-min">{{histogram.Min}}</span>
+<span class="pv-filterpanel-numericslider-range-max">{{histogram.Max}}</span>
