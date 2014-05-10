@@ -174,7 +174,7 @@
 
         //Apply ViewerState filters
         ApplyViewerState();
-        _initSelectedItem = GetItem(_viewerState.Selection);
+        _initSelectedItem = PivotCollection.GetItemById(_viewerState.Selection);
         _initTableFacet = _viewerState.TableFacet;
         
         //Set the width for displaying breadcrumbs as we now know the control sizes 
@@ -1478,35 +1478,6 @@
         $('.pv-infopanel-details').empty();
     };
 
-    /// Gets the all the items who have a facet value == value
-    GetItemIds = function (facetName, value) {
-        var foundId = [];
-        for (var i = 0; i < PivotCollection.Items.length; i++) {
-            var found = false;
-            for (var j = 0; j < PivotCollection.Items[i].Facets.length; j++) {
-                if (PivotCollection.Items[i].Facets[j].Name == facetName) {
-                    for (var k = 0; k < PivotCollection.Items[i].Facets[j].FacetValues.length; k++) {
-                        if (value == PivotCollection.Items[i].Facets[j].FacetValues[k].Value)
-                            foundId.push(PivotCollection.Items[i].Id);
-                    }
-                    found = true;
-                }
-            }
-            if (!found && value == "(no info)") {
-                foundId.push(PivotCollection.Items[i].Id);
-            }
-        }
-        return foundId;
-    };
-
-    GetItem = function (itemId) {
-        for (var i = 0; i < PivotCollection.Items.length; i++) {
-            if (PivotCollection.Items[i].Id == itemId)
-                return PivotCollection.Items[i];
-        }
-        return null;
-    };
-
     UpdateBookmark = function ()
         {
             // CurrentViewerState
@@ -1633,7 +1604,7 @@
         }
 
         //if (evt.length > 0) {
-        var selectedItem = GetItem(evt.id);
+        var selectedItem = PivotCollection.GetItemById(evt.id);
         if (selectedItem != null) {
             // nav arrows...
             if (selectedItem.Id == _filterItems[0].Id && selectedItem == _filterItems[_filterItems.length - 1]) {
