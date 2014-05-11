@@ -8,7 +8,7 @@
 	</div>-->
 	<div class='pv-toolbarpanel-zoomcontrols'>
 		<!--<div class="pv-zoomslider-buttons"><img src='{{baseContentPath}}/images/minus.png' /></div> -->
-		<div class='pv-toolbarpanel-zoomslider noUiSlider'></div>
+		<div class='pv-toolbarpanel-zoomslider'></div>
 		<!-- <div class="pv-zoomslider-buttons"><img src='{{baseContentPath}}/images/plus.png' /></div> -->
 	</div>
 	<div class='pv-toolbarpanel-viewcontrols'></div>
@@ -17,11 +17,13 @@
 <div class='pv-mainpanel'>
 	<div class='pv-filterpanel-search-autocomplete'></div>
 	<div class='pv-filterpanel'>
-		<div class='pv-filterpanel-export' id='pv-filterpanel-export-container' title='Export to clipboard'></div>
-		<div class='pv-filterpanel-clearall' title="Clear all">
-			<span>Clear All</span>
+		<div class='pv-filterpanel-toolbar'>
+			<div class='pv-filterpanel-export' id='pv-filterpanel-export-container' title='Export to clipboard'></div>
+			<div class='pv-filterpanel-clearall' title="Clear all">
+				<span>Clear All</span>
+			</div>
+			<input class='pv-filterpanel-search' type='text' placeholder='Search...' />
 		</div>
-		<input class='pv-filterpanel-search' type='text' placeholder='Search...' />
 		<div class='pv-filterpanel-accordion'></div>
 	</div>
 	<div class='pv-viewpanel'>

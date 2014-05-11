@@ -227,12 +227,24 @@
 		var mainPanelWidth = _self.width();
 		var mainPanelHeight = _self.height() - $('.pv-toolbarpanel').height() - 6;		
 		$('.pv-mainpanel').height(mainPanelHeight).width(mainPanelWidth);
-		$('.pv-filterpanel').height(mainPanelHeight - 13);
+		
 		var canvas = $('.pv-viewarea-canvas')[0];
 		canvas.height = mainPanelHeight;
 		canvas.width = mainPanelWidth;
+		
 		$('.pv-infopanel').height(mainPanelHeight - 28).offset({left: mainPanelWidth - 205});
-		$(".pv-filterpanel-accordion").css('height', ($(".pv-filterpanel").height() - $(".pv-filterpanel-search").height() - 75) + "px");
+		
+        var filterPanel = $('.pv-filterpanel');
+        filterPanel.height(mainPanelHeight - 19);
+		if (navigator.userAgent.match(/iPad/i) != null)
+            $('.pv-filterpanel-search').css('width', filterPanel.width() - 10 + 'px');
+        else
+            $('.pv-filterpanel-search').css('width', filterPanel.width() - 2 + 'px');
+        $('.pv-filterpanel-search-autocomplete')
+            .css('width', filterPanel.width() - 8 + 'px')
+            .hide();
+			
+		$(".pv-filterpanel-accordion").height(filterPanel.height() - $(".pv-filterpanel-toolbar").height());
 		
 		var thatRef = 0;
         $('.pv-toolbarpanel-zoomslider').slider({
@@ -246,15 +258,6 @@
                 thatRef = ui.value;
             }
         });
-
-        var filterPanel = $('.pv-filterpanel');
-        if (navigator.userAgent.match(/iPad/i) != null)
-            $('.pv-filterpanel-search').css('width', filterPanel.width() - 10 + 'px');
-        else
-            $('.pv-filterpanel-search').css('width', filterPanel.width() - 2 + 'px');
-        $('.pv-filterpanel-search-autocomplete')
-            .css('width', filterPanel.width() - 8 + 'px')
-            .hide();
     };
 	
 
