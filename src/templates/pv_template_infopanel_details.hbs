@@ -6,12 +6,12 @@
 	{{/if}}
 	{{#each Facets}}
 		{{#if IsMetaDataVisible}}
-			<div class='pv-infopanel-detail {{#if alternate}}detail-dark{{else}}detail-light{{/if}}'>
-				<div class='pv-infopanel-detail-item detail-item-title'>{{Name}}</div>
+			<div class='pv-infopanel-detail {{#if alternate}}pv-infopanel-detail-dark{{else}}pv-infopanel-detail-light{{/if}}'>
+				<div class='pv-infopanel-detail-item pv-detail-item-title'>{{Name}}</div>
 				{{#each FacetValues}}
-				<div class='pv-infopanel-detail-item detail-item-value {{#if ../IsFilterVisible}}detail-item-value-filter{{/if}}'>
+				<div class='pv-infopanel-detail-item pv-detail-item-value {{#if ../IsFilterVisible}}pv-detail-item-value-filter{{/if}}'>
 					{{#if Href}}
-					<a class='detail-item-link' href='{{Href}}' target='_blank'>{{Value}}</a>
+					<a class='pv-detail-item-link' href='{{Href}}' target='_blank'>{{Value}}</a>
 					{{else}}
 					{{Value}}
 					{{/if}}

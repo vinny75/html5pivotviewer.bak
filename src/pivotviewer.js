@@ -1901,7 +1901,7 @@
             CustomRangeChanged(this);
         });
         //Info panel
-        $('.pv-infopanel-details').on('click', '.detail-item-value-filter', function (e) {
+        $('.pv-infopanel-details').on('click', '.pv-detail-item-value-filter', function (e) {
             $.publish("/PivotViewer/Views/Item/Filtered", [{ Facet: $(this).parent().children().attr('pv-detail-item-title'), Item: this.getAttribute('pv-detail-item-value'), Values: null, ClearFacetFilters: true }]);
             return false;
         });

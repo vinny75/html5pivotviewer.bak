@@ -102,13 +102,13 @@ a { font-weight:normal; }
 .pv-infopanel-detail { padding: 4px 3px 4px 3px;}
 .pv-infopanel-related { color:#E2E2E2; font-size: 8pt; float:left; clear:both; position:relative; bottom:0;}
 .pv-infopanel-copyright { color:#E2E2E2; font-size: 8pt; float:left; clear:both; position:absolute; bottom:0;}
-.detail-dark { background-color: #E0E1E2; }
-.detail-light { background-color: #EEEFF0; }
-.detail-item-title { color: #05314A; margin-bottom	:5px; }
-.detail-item-value { color: #484848; padding:2px 0px 2px 0px; } 
-.detail-item-value-filter { color:#36A3D8; cursor:default; }
-.detail-item-value-filter:hover { background-color:#C9DFEA; }
-.detail-item-link { color:#36A3D8; text-decoration:none; }
+.pv-infopanel-detail-dark { background-color: #E0E1E2; }
+.pv-infopanel-detail-light { background-color: #EEEFF0; }
+.pv-detail-item-title { color: #05314A; margin-bottom	:5px; }
+.pv-detail-item-value { color: #484848; padding:2px 0px 2px 0px; } 
+.pv-detail-item-value-filter { color:#36A3D8; cursor:default; }
+.pv-detail-item-value-filter:hover { background-color:#C9DFEA; }
+.pv-detail-item-link { color:#36A3D8; text-decoration:none; }
 /* View common */
 .pv-viewarea-canvas { position: absolute; z-index: 20; }
 /* Graph View */
@@ -117,9 +117,9 @@ a { font-weight:normal; }
 .pv-viewarea-graphview-overlay-bucket { height: 100%; position:absolute; top:0px;}
 .pv-viewarea-graphview-overlay-buckettitle { height: 50px; background-color:#F5F5F5; position: relative; text-align:center; border: 1px solid #D3D4D4; cursor: default; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;z-index: 25;}
 .pv-viewarea-graphview-overlay-count { position: relative; background-color: #597686; border-radius: 5px; color: #FFFFFF; margin-left: 5px; padding: 4px; z-index: 30; }
-.graphview-bucket-dark { background-color: #E6E8ED; }
-.graphview-bucket-light { background-color: #EBEDF1; }
-.graphview-bucket-hover { background-color: #DCECF4; }
+.pv-graphview-bucket-dark { background-color: #E6E8ED; }
+.pv-graphview-bucket-light { background-color: #EBEDF1; }
+.pv-graphview-bucket-hover { background-color: #DCECF4; }
 .pv-tableview-table { position: absolute; top:0px; left:193px; padding: 0px 3px 0px 3px; display:none; overflow-y: auto; margin-top:5px; margin-left:5px;}
 .pv-tableview-odd-row { background-color: #EBEDF1;}
 .pv-tableview-even-row { background-color: #F0F2F5;}
@@ -128,180 +128,9 @@ a { font-weight:normal; }
 .pv-tableview-even-row:hover { background-color:#CBE4F0; }
 .pv-mapview-canvas { position: absolute; top:0px; left:193px; padding: 0px 3px 0px 3px; display:none; overflow-y: auto; margin-top:5px; margin-left:5px;}
 .pv-timeview-canvas { position: absolute; top:0px; left:193px; padding: 0px 3px 0px 3px; display:none; overflow-y: auto; margin-top:5px; margin-left:5px;}
-/*
- * jQuery UI CSS Framework 1.8.16
- *
- * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Theming/API
- *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/
- */
-/* Component containers
-----------------------------------*/
-.ui-widget-content { background: #ffffff/*{bgColorContent}*/ 50%/*{bgContentXPos}*/ 50%/*{bgContentYPos}*/ repeat-x/*{bgContentRepeat}*/; color: #222222/*{fcContent}*/; }
-.ui-widget-content a { color: #222222/*{fcContent}*/; }
-.ui-widget-header { border: 1px solid #aaaaaa/*{borderColorHeader}*/; background: #cccccc/*{bgColorHeader}*/ 50%/*{bgHeaderXPos}*/ 50%/*{bgHeaderYPos}*/ repeat-x/*{bgHeaderRepeat}*/; color: #222222/*{fcHeader}*/; font-weight: bold; }
-.ui-widget-header a { color: #222222/*{fcHeader}*/; }
-/*
- * jQuery UI Accordion 1.8.16
- *
- * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Accordion#theming
- */
-/* IE/Win - Fix animation bug - #4615 */
-.ui-accordion { width: 100%; }
-.ui-accordion .ui-accordion-header {  outline: none; cursor: pointer; position: relative; margin-top: 1px; margin-bottom: 0px; zoom: 1; border-top: 1px solid #E2E2E2; }
-.ui-accordion .ui-accordion-li-fix { display: inline; }
-.ui-accordion .ui-accordion-header-active { border-bottom: 0 !important; }
-.ui-accordion .ui-accordion-header a {text-decoration: none; color: #05314A; width: 80%;  display: block; font-size: 1em; padding: .5em .5em .5em .7em; overflow: hidden; text-overflow: ellipsis; font-weight:normal;}
- .ui-accordion-header.ui-state-default a { text-decoration: none; color: #05314A; width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-.ui-accordion-icons .ui-accordion-header a { outline: none; text-decoration:none; color: #05314A; }
-.ui-accordion .ui-accordion-header .ui-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }
-.ui-accordion .ui-accordion-content { height: 35%; /*padding: 1em 2.2em;*/ border-top: 0; margin-top: -2px; position: relative; top: 1px; margin-bottom: 2px; overflow-y: auto !important; overflow-x: hidden !important; display: none; zoom: 1; }
-.ui-accordion .ui-accordion-content-active { display: block; }
-/*
- * jQuery UI Slider 1.8.16
- *
- * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Slider#theming
- */
-.ui-slider { position: relative; text-align: left; }
-.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; }
-.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
-
-.ui-slider-horizontal { height: .8em; }
-.ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.6em; }
-.ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
-.ui-slider-horizontal .ui-slider-range-min { left: 0; }
-.ui-slider-horizontal .ui-slider-range-max { right: 0; }
-
-.ui-slider-vertical { width: .8em; height: 100px; }
-.ui-slider-vertical .ui-slider-handle { left: -.3em; margin-left: 0; margin-bottom: -.6em; }
-.ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
-.ui-slider-vertical .ui-slider-range-min { bottom: 0; }
-.ui-slider-vertical .ui-slider-range-max { top: 0; }
-a .ui-slider-handle .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3/*{borderColorDefault}*/; background: #e6e6e6/*{bgColorDefault}*/ 50%/*{bgDefaultXPos}*/ 50%/*{bgDefaultYPos}*/ repeat-x/*{bgDefaultRepeat}*/; color: #555555/*{fcDefault}*/; }
 .pv-filterpanel-numericslider { margin: 2px 0px 2px 0px; width: 155px; }
 .pv-filterpanel-numericslider-range-val { font-style: italic; color: #9C9C9C; height:13px; }
 .pv-filterpanel-numericslider-range-max { float: right; }
 /* Histogram */
 .pv-filterpanel-accordion-facet-chart { margin-top: 2px; }
 .pv-filterpanel-accordion-facet-chart rect { stroke: white; fill: steelblue; }
-/*!
- * jQuery UI Datepicker 1.10.2
- * http://jqueryui.com
- *
- * Copyright 2013 jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Datepicker#theming
- */
-.ui-datepicker {
-	width: 17em;
-	padding: .2em .2em 0;
-	display: none;
-}
-.ui-datepicker .ui-datepicker-header {
-	position: relative;
-	padding: .2em 0;
-}
-.ui-datepicker .ui-datepicker-prev,
-.ui-datepicker .ui-datepicker-next {
-	position: absolute;
-	top: 2px;
-	width: 1.8em;
-	height: 1.8em;
-}
-.ui-datepicker .ui-datepicker-prev-hover,
-.ui-datepicker .ui-datepicker-next-hover {
-	top: 1px;
-}
-.ui-datepicker .ui-datepicker-prev {
-	left: 2px;
-}
-.ui-datepicker .ui-datepicker-next {
-	right: 9px;
-}
-.ui-datepicker .ui-datepicker-prev-hover {
-	left: 1px;
-}
-.ui-datepicker .ui-datepicker-next-hover {
-	right: 8px;
-}
-.ui-datepicker .ui-datepicker-prev span,
-.ui-datepicker .ui-datepicker-next span {
-	display: block;
-	position: absolute;
-	left: 50%;
-	margin-left: -8px;
-	top: 50%;
-	margin-top: -8px;
-}
-.ui-datepicker .ui-datepicker-title {
-	margin: 0 2.3em;
-	line-height: 1.8em;
-	text-align: center;
-}
-.ui-datepicker .ui-datepicker-title select {
-	font-size: 8pt;
-	margin: 1px 0;
-}
-.ui-datepicker select.ui-datepicker-month-year {
-	width: 100%;
-}
-.ui-datepicker select.ui-datepicker-month,
-.ui-datepicker select.ui-datepicker-year {
-	width: 49%;
-}
-.ui-datepicker table {
-	width: 100%;
-	font-size: 8pt;
-	border-collapse: collapse;
-	margin: 0 0 3px;
-}
-.ui-datepicker th {
-	padding: .7em .3em;
-	text-align: center;
-	font-weight: bold;
-	border: 0;
-}
-.ui-datepicker td {
-	border: 0;
-	padding: 1px;
-}
-.ui-datepicker td span,
-.ui-datepicker td a {
-	display: block;
-	padding: .2em;
-	text-align: right;
-	text-decoration: none;
-}
-.ui-datepicker .ui-datepicker-buttonpane {
-	background-image: none;
-	margin: .7em 0 0 0;
-	padding: 0 .2em;
-	border-left: 0;
-	border-right: 0;
-	border-bottom: 0;
-}
-.ui-datepicker .ui-datepicker-buttonpane button {
-	float: right;
-	margin: .5em .2em .4em;
-	cursor: pointer;
-	padding: .2em .6em .3em .6em;
-	width: auto;
-	overflow: visible;
-}
-.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
-	float: left;
-}

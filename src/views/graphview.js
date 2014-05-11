@@ -51,11 +51,11 @@ PivotViewer.Views.GraphView = PivotViewer.Views.TileBasedView.subClass({
         $.subscribe("/PivotViewer/Views/Canvas/Hover", function (evt) {
             if (!that.isActive)
                 return;
-            $('.pv-viewarea-graphview-overlay-bucket').removeClass('graphview-bucket-hover');
+            $('.pv-viewarea-graphview-overlay-bucket').removeClass('pv-graphview-bucket-hover');
             //determine bucket and select
             var bucketNumber = Math.floor((evt.x - that.offsetX) / that.columnWidth);
             var bucketDiv = $('#pv-viewarea-graphview-overlay-bucket-' + bucketNumber);
-            bucketDiv.addClass('graphview-bucket-hover');
+            bucketDiv.addClass('pv-graphview-bucket-hover');
             //determine tile
             for (var i = 0; i < that.tiles.length; i++) {
 	        var loc = that.tiles[i].Contains(evt.x, evt.y);
@@ -259,7 +259,7 @@ PivotViewer.Views.GraphView = PivotViewer.Views.TileBasedView.subClass({
         var uiElements = [];
         this.bigCount = 0;
        for (var i = 0; i < this.buckets.length; i++) {
-            var styleClass = i % 2 == 0 ? "graphview-bucket-dark" : "graphview-bucket-light";
+            var styleClass = i % 2 == 0 ? "pv-graphview-bucket-dark" : "pv-graphview-bucket-light";
             uiElements[i] = "<div class='pv-viewarea-graphview-overlay-bucket " + styleClass + "' id='pv-viewarea-graphview-overlay-bucket-" + i + "' style='width: " + (Math.floor(this.columnWidth) - 4) + "px; height:" + (this.height - 2) + "px; left:" + ((i * this.columnWidth) - 2) + "px;'>";
             if (this.buckets[i].startRange == this.buckets[i].endRange)
                 uiElements[i] += "<div class='pv-viewarea-graphview-overlay-buckettitle' style='top: " + (this.canvasHeightUIAdjusted + 4) + "px;'>" + this.buckets[i].startRange + "</div>";
