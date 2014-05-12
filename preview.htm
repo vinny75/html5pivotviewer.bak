@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link href="style/pivotviewer.css" rel="stylesheet" type="text/css" /> 
 	<link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" /> 	
-	<link href="style/pivotviewer.jquery-ui.overrides2.css" rel="stylesheet" type="text/css" /> 
+	<link href="style/pivotviewer.jquery-ui.overrides.css" rel="stylesheet" type="text/css" /> 
     
     <!-- libs -->
     <script src="lib/jquery/jquery-2.1.0.min.js"></script>
@@ -94,7 +94,7 @@
 			});
 			$.when.apply($, promises).done(function () {
                $('#pivotviewer').PivotViewer({
-                   Loader: new PivotViewer.Models.Loaders.CXMLLoader("../collection/pivot.cxml")
+                   Loader: new PivotViewer.Models.Loaders.CXMLLoader("../collection/pivot2.cxml")
                });
 			});
        });

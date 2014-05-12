@@ -57,8 +57,7 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                     var msg = '';
                     msg = msg + 'Error parsing CXML Collection<br>';
                     msg = msg + '<br>Pivot Viewer cannot continue until this problem is resolved<br>';
-                    $('.pv-wrapper').append("<div id=\"pv-parse-error\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>" + msg + "</p></div></div>");
-                    var t=setTimeout(function(){window.open("#pv-parse-error","_self")},1000)
+					PivotViewer.Utils.ModalDialog(msg);
                     throw "Error parsing CXML Collection";
                 }
 
@@ -126,8 +125,7 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                         //Display a message so the user knows something is wrong
                         var msg = '';
                         msg = msg + 'There are no items in the CXML Collection<br><br>';
-                        $('.pv-wrapper').append("<div id=\"pv-empty-collection-error\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>" + msg + "</p></div></div>");
-                        var t=setTimeout(function(){window.open("#pv-empty-collection-error","_self")},1000)
+						PivotViewer.Utils.ModalDialog(msg);
                     } else {
                         for (var i = 0; i < facetItem.length; i++) {
                             var item = new PivotViewer.Models.Item(
@@ -255,8 +253,7 @@ PivotViewer.Models.Loaders.CXMLLoader = PivotViewer.Models.Loaders.ICollectionLo
                 msg = msg + 'Status : ' + jqXHR.status + ' ' + errorThrown + '<br>';
                 msg = msg + 'Details    : ' + jqXHR.responseText + '<br>';
                 msg = msg + '<br>Pivot Viewer cannot continue until this problem is resolved<br>';
-                $('.pv-wrapper').append("<div id=\"pv-loading-error\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>" + msg + "</p></div></div>");
-                var t=setTimeout(function(){window.open("#pv-loading-error","_self")},1000)
+				PivotViewer.Utils.ModalDialog(msg);
             }
         });
     }

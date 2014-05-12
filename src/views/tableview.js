@@ -319,8 +319,7 @@ PivotViewer.Views.TableView = PivotViewer.Views.IPivotViewerView.subClass({
             if (showAllFacets == true) {
                 var msg = '';
                 msg = msg + 'There is not data to show about the selected items';
-                $('.pv-wrapper').append("<div id=\"pv-dztable-error\" class=\"pv-modal-dialog\"><div><a href=\"#pv-modal-dialog-close\" title=\"Close\" class=\"pv-modal-dialog-close\">X</a><h2>HTML5 PivotViewer</h2><p>" + msg + "</p></div></div>");
-                var t=setTimeout(function(){window.open("#pv-dztable-error","_self")},1000)
+				PivotViewer.Utils.ModalDialog(msg);
                 return;
             } else
                 this.CreateTable( currentFilter, "", sortKey, sortReverse )
