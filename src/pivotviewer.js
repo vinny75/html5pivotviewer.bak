@@ -263,23 +263,54 @@
 				var matcher = new RegExp( "^" + re, "i" );
 				var a = $.map(PivotCollection.Items, function(item,index){
 					var matches = [];
+					if (matcher.test(item.Name)) {
+						matches.push({label: item.Name, value: item.Id, category: ""})
+					}
 					for (var i = 0; i < item.Facets.length; i++) {
 						for (var k = 0; k < item.Facets[i].FacetValues.length; k++) {
-								if (matcher.test(item.Facets[i].FacetValues[k].Value))
-									matches.push({label: item.Facets[i].FacetValues[k].Value, value: item.Name, category: item.Facets[i].Name });
+							if (matcher.test(item.Facets[i].FacetValues[k].Value)) {
+								matches.push({label: item.Facets[i].FacetValues[k].Value, value: item.Id, category: item.Facets[i].Name });
+							}
 						}
 					}
 					return (matches.length === 0) ? null : matches;
 				});
-				responseFn( a );
+				a.sort(function(a, b) {
+					if (a.label < b.label) {
+						return -1;
+					}
+					if (a.label == b.label) {
+						return 0;
+					}
+					if (a.label > b.label) {
+						return 1;
+					}
+				});				
+				a.sort(function(a, b) {
+					if (a.category < b.category) {
+						return -1;
+					}
+					if (a.category == b.category) {
+						return 0;
+					}
+					if (a.category > b.category) {
+						return 1;
+					}
+				});
+				responseFn(a);
 			},
-			minLength: 2,
+			minLength: 1,
 			select: function(event, ui) {
-				SelectStringFacetItem(
-					CleanName(ui.item.category),
-					CleanName(ui.item.label)
-				);
-				FilterCollection(false);
+				if (ui.item.category === "") {
+					$.publish("/PivotViewer/Views/Item/Selected", [{id: ui.item.value, bkt: 0}]); // FIXME need to zoom into item
+				}
+				else {			
+					SelectStringFacetItem(
+						CleanName(ui.item.category),
+						CleanName(ui.item.label)
+					);
+					FilterCollection(false);
+				}
 			}			
 		});
 			
