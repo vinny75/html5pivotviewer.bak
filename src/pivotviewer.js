@@ -20,7 +20,6 @@
         _facetItemTotals = [], //used to store the counts of all the string facets - used when resetting the filters
         _facetNumericItemTotals = [], //used to store the counts of all the numeric facets - used when resetting the filters
         _facetDateTimeItemTotals = [], //used to store the counts of all the datetime facets - used when resetting the filters
-        _wordWheelItems = [], //used for quick access to search values
 	_stringFacets = [],
 	_numericFacets = [],
 	_datetimeFacets = [],
@@ -244,6 +243,46 @@
             .css('width', filterPanel.width() - 8 + 'px')
             .hide();
 			
+		$.widget( "custom.catautocomplete", $.ui.autocomplete, {
+			_renderMenu: function( ul, items ) {
+				var that = this,
+				currentCategory = "";
+				$.each( items, function( index, item ) {
+					if ( item.category != currentCategory ) {
+						ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+						currentCategory = item.category;
+					}
+					that._renderItemData( ul, item );
+				});
+			}
+		});
+
+		$('.pv-filterpanel-search').catautocomplete({
+			source: function(req, responseFn) {
+				var re = $.ui.autocomplete.escapeRegex(req.term);
+				var matcher = new RegExp( "^" + re, "i" );
+				var a = $.map(PivotCollection.Items, function(item,index){
+					var matches = [];
+					for (var i = 0; i < item.Facets.length; i++) {
+						for (var k = 0; k < item.Facets[i].FacetValues.length; k++) {
+								if (matcher.test(item.Facets[i].FacetValues[k].Value))
+									matches.push({label: item.Facets[i].FacetValues[k].Value, value: item.Name, category: item.Facets[i].Name });
+						}
+					}
+					return (matches.length === 0) ? null : matches;
+				});
+				responseFn( a );
+			},
+			minLength: 2,
+			select: function(event, ui) {
+				SelectStringFacetItem(
+					CleanName(ui.item.category),
+					CleanName(ui.item.label)
+				);
+				FilterCollection(false);
+			}			
+		});
+			
 		$(".pv-filterpanel-accordion").height(filterPanel.height() - $(".pv-filterpanel-toolbar").height());
 		
 		var thatRef = 0;
@@ -328,22 +367,6 @@
 
                     if (!found)
                         _facetItemTotals.push({ itemId: itemId, itemValue: "(no info)", facet: currentFacetCategory.Name, count: 1 });
-                }
-
-                //Add to the word wheel cache array
-                if (currentFacetCategory.IsWordWheelVisible) {
-                    //Get values                    
-                    for (var j = 0, _jLen = currentItem.Facets.length; j < _jLen; j++) {
-                        var currentItemFacet = currentItem.Facets[j];
-                        //If the facet is found then add it's values to the list
-                        if (currentItemFacet.Name == currentFacetCategory.Name) {
-                            for (var k = 0; k < currentItemFacet.FacetValues.length; k++) {
-                                if (currentFacetCategory.Type == PivotViewer.Models.FacetType.String) {
-                                    _wordWheelItems.push({ Facet: currentItemFacet.Name, Value: currentItemFacet.FacetValues[k].Value });
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -1962,61 +1985,6 @@
               }
           }
         });
-        //Search
-        $('.pv-filterpanel-search').on('keyup', function (e) {
-            var found = false;
-            var foundAlready = [];
-            var autocomplete = $('.pv-filterpanel-search-autocomplete');
-            var filterRef = FilterCollection;
-            var selectRef = SelectStringFacetItem;
-            autocomplete.empty();
-
-            //Esc
-            if (e.keyCode == 27) {
-                $(e.target).blur(); //remove focus
-                return;
-            }
-
-            for (var i = 0, _iLen = _wordWheelItems.length; i < _iLen; i++) {
-                var wwi = _wordWheelItems[i].Value.toLowerCase();
-                if (wwi.indexOf(e.target.value.toLowerCase()) >= 0) {
-                    if ($.inArray(wwi, foundAlready) == -1) {
-                        foundAlready.push(wwi);
-                        //Add to autocomplete
-                        autocomplete.append('<span facet="' + _wordWheelItems[i].Facet + '">' + _wordWheelItems[i].Value + '</span>');
-
-                        if (e.keyCode == 13) {
-                            SelectStringFacetItem(
-                                CleanName(_wordWheelItems[i].Facet),
-                                CleanName(_wordWheelItems[i].Value)
-                            );
-                            found = true;
-                        }
-                    }
-                }
-            }
-
-            $('.pv-filterpanel-search-autocomplete > span').on('mousedown', function (e) {
-                e.preventDefault();
-                $('.pv-filterpanel-search').val(e.target.textContent);
-                $('.pv-filterpanel-search-autocomplete').hide();
-                selectRef(
-                    CleanName(e.target.attributes[0].value),
-                    CleanName(e.target.textContent)
-                );
-                filterRef();
-            });
-
-            if (foundAlready.length > 0)
-                autocomplete.show();
-
-            if (found)
-                FilterCollection(false);
-        });
-        $('.pv-filterpanel-search').on('blur', function (e) {
-            e.target.value = '';
-            $('.pv-filterpanel-search-autocomplete').hide();
-        });
         //Shared canvas events
         var canvas = $('.pv-viewarea-canvas');
         //mouseup event - used to detect item selection, or drag end
@@ -2252,14 +2220,14 @@
                        }
                    }
                 }
-            }
-            currentFacetCategory.decadeBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
-            currentFacetCategory.yearBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
-            currentFacetCategory.monthBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
-            currentFacetCategory.dayBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
-            currentFacetCategory.hourBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
-            currentFacetCategory.minuteBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
-            currentFacetCategory.secondBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
+				currentFacetCategory.decadeBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
+				currentFacetCategory.yearBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
+				currentFacetCategory.monthBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
+				currentFacetCategory.dayBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
+				currentFacetCategory.hourBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
+				currentFacetCategory.minuteBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
+				currentFacetCategory.secondBuckets.sort(function (a, b) {return a.StartDate - b.StartDate});
+			}
         }
     };
 
